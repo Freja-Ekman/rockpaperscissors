@@ -1,15 +1,16 @@
 package se.cygni.rockpaperscissors.application.model;
 
 import lombok.Data;
-import java.util.UUID;
+
+import java.util.Optional;
 
 @Data
 public class Player {
-    private Move move;
     private String name;
 
-    public Player(Move move, String name) {
-        this.move = move;
+    public Player(String name) {
         this.name = name;
     }
+
+
 }

@@ -3,18 +3,22 @@ package se.cygni.rockpaperscissors.application.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class PlayerTest {
+public class GameMoveTest {
     private Player player;
+    private GameMove gameMove;
 
     @BeforeEach
-    void setUp() {
+    void GameMoveTest() {
         player = new Player("Testsson");
+        gameMove = new GameMove(Move.ROCK, player);
     }
+
     @Test
-    void getName() {
-        assertNotNull(player.getName());
+    void createGameMove() {
+        assertNotNull(gameMove);
     }
 }

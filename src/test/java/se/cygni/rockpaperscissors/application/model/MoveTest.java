@@ -51,11 +51,4 @@ public class MoveTest {
     void scissorEqualScissor() {
         assertEquals(0, Move.SCISSOR.winsOver(Move.SCISSOR));
     }
-
-    @Test
-    void noMoveThrowsIllegalStateException() {
-        assertThrows(IllegalStateException.class, () -> {
-            Move.NO_MOVE.winsOver(Move.ROCK);
-        });
-    }
 }
