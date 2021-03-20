@@ -14,7 +14,7 @@ public class GameServiceTest {
 
     @BeforeEach
     void setUp() {
-        gameService = new GameService();
+        gameService = GameService.getGameService();
     }
 
     @Test
