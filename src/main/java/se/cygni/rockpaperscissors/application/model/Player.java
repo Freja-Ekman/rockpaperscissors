@@ -5,11 +5,11 @@ import java.util.UUID;
 
 @Data
 public class Player {
-    private UUID id;
     private Move move;
+    private String name;
 
-    public Player(Move move) {
-        this.id = UUID.randomUUID();
+    public Player(Move move, String name) {
         this.move = move;
+        this.name = name;
     }
 }

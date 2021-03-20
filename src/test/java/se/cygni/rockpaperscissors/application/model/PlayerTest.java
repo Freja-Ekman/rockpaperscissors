@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class PlayerTest {
 
     @Test
-    void getId() {
-        Player player = new Player(Move.PAPER);
-        assertNotNull(player.getId());
+    void getName() {
+        Player player = new Player(Move.PAPER, "Testsson");
+        assertNotNull(player.getName());
     }
 }
