@@ -6,15 +6,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
-    private GameMove gameMove;
+    private GameMove starterGameMove;
     private Game game;
-    private Player player;
+    private Player starter;
 
     @BeforeEach
     void setUp() {
-        player = new Player("Testsson");
-        gameMove = new GameMove(Move.ROCK, player);
-        game = new Game(gameMove);
+        game = new Game();
+        starter = new Player("Testsson");
+        starterGameMove = new GameMove(Move.ROCK, starter);
     }
 
     @Test
@@ -23,43 +23,60 @@ public class GameTest {
     }
 
     @Test
-    void addGameMove() {
-        Player player2 = new Player("Tester");
-        GameMove gameMove2 = new GameMove(Move.SCISSOR, player2);
-        game.addGameMove(gameMove2);
+    void addOneGameMove() {
+        game.addGameMove(starterGameMove);
+        assertTrue(game.getGameMove1().isPresent());
+    }
+
+    @Test
+    void addTwoGameMoves() {
+        game.addGameMove(starterGameMove);
+        Player player = new Player("Tester");
+        GameMove playerGameMove = new GameMove(Move.SCISSOR, player);
+        game.addGameMove(playerGameMove);
         assertTrue(game.getGameMove2().isPresent());
     }
 
     @Test
-    void addAlreadyExistingGameMove() {
-        Player player2 = new Player("Tester");
-        Player player3 = new Player("Tester");
-        GameMove gameMove2 = new GameMove(Move.ROCK, player2);
-        GameMove gameMove3 = new GameMove(Move.SCISSOR, player3);
-        game.addGameMove(gameMove2);
-        assertThrows(IllegalStateException.class, () -> {game.addGameMove(gameMove3);});
+    void addThreeGameMoves() {
+        game.addGameMove(starterGameMove);
+        Player player = new Player("Tester");
+        Player player1 = new Player("Testare");
+        GameMove gameMove = new GameMove(Move.ROCK, player);
+        GameMove gameMove1 = new GameMove(Move.SCISSOR, player1);
+        game.addGameMove(gameMove);
+        assertThrows(IllegalStateException.class, () -> {game.addGameMove(gameMove1);});
     }
 
     @Test
     void checkResultOneWinner() {
-        Player player2 = new Player("Tester");
-        GameMove gameMove2 = new GameMove(Move.SCISSOR, player2);
-        game.addGameMove(gameMove2);
+        game.addGameMove(starterGameMove);
+        Player player = new Player("Tester");
+        GameMove gameMove = new GameMove(Move.SCISSOR, player);
+        game.addGameMove(gameMove);
         State state = game.checkResult();
         assertEquals(State.PLAYER1WON, state);
     }
 
     @Test
     void checkResultEqual() {
-        Player player2 = new Player("Tester");
-        GameMove gameMove2 = new GameMove(Move.ROCK, player2);
-        game.addGameMove(gameMove2);
+        game.addGameMove(starterGameMove);
+        Player player = new Player("Tester");
+        GameMove gameMove = new GameMove(Move.ROCK, player);
+        game.addGameMove(gameMove);
         State state = game.checkResult();
         assertEquals(State.EQUAL, state);
     }
 
     @Test
-    void checkResultNotStarted() {
+    void checkResultNoGameMoveFromOne() {
+        game.addGameMove(starterGameMove);
+        State state = game.checkResult();
+        assertEquals(State.NOT_STARTED, state);
+    }
+
+    @Test
+    void checkResultNoGameMoveFromBoth() {
         State state = game.checkResult();
         assertEquals(State.NOT_STARTED, state);
     }
