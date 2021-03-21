@@ -3,18 +3,18 @@ package se.cygni.rockpaperscissors.application.sevices;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import se.cygni.rockpaperscissors.application.model.Game;
-import se.cygni.rockpaperscissors.application.services.GameService;
+import se.cygni.rockpaperscissors.application.services.GameServiceImpl;
 
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GameServiceTest {
-    private GameService gameService;
+    private GameServiceImpl gameService;
 
     @BeforeEach
     void setUp() {
-        gameService = GameService.getGameService();
+        gameService = new GameServiceImpl();
     }
 
     @Test
