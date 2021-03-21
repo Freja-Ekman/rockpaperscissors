@@ -1,13 +1,7 @@
 package se.cygni.rockpaperscissors.api;
 
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.BodyInserter;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.server.ServerRequest;
-import org.springframework.web.reactive.function.server.ServerResponse;
 
-import reactor.core.publisher.Mono;
+import org.springframework.web.bind.annotation.*;
 import se.cygni.rockpaperscissors.api.model.GameDto;
 import se.cygni.rockpaperscissors.api.model.MoveDto;
 import se.cygni.rockpaperscissors.api.model.PlayerDto;
@@ -15,44 +9,40 @@ import se.cygni.rockpaperscissors.api.model.StatusDto;
 import se.cygni.rockpaperscissors.application.model.Game;
 import se.cygni.rockpaperscissors.application.model.GameMove;
 import se.cygni.rockpaperscissors.application.model.Move;
-import se.cygni.rockpaperscissors.application.model.Player;
 import se.cygni.rockpaperscissors.application.services.GameService;
 
 import java.util.UUID;
 
-@Component
-public class RockPaperScissorsHandler {
+@RestController
+public class RockPaperScissorsController {
     private GameService gameService;
 
-    public RockPaperScissorsHandler(GameService gameService) {
+    public RockPaperScissorsController(GameService gameService) {
         this.gameService = gameService;
     }
 
-    public Mono<ServerResponse> getGame(ServerRequest request) {
-        String id = request.pathVariable("id");
-        Mono<Game> game = gameService.getGame(UUID.fromString(id));
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(game.map(it -> new StatusDto(it)), StatusDto.class);
+    @GetMapping(path = "/games/{id}" ,produces = "application/json")
+    public StatusDto getGame(@PathVariable("id") String id) {
+        Game game = gameService.getGame(UUID.fromString(id));
+        return new StatusDto(game);
     }
 
-    public Mono<ServerResponse> postGame(ServerRequest request) {
-        Mono<UUID> id = gameService.createGame();
-        return JsonWriter.write(id.map(it -> new GameDto(it))).flatMap((json) -> ServerResponse.ok()
-                .body(Mono.just(json), String.class));
+    @PostMapping(path = "/games", consumes = "application/json", produces = "application/json")
+    public GameDto postGame() {
+        UUID id = gameService.createGame();
+        return new GameDto(id);
     }
 
-    public Mono<ServerResponse> postJoin(ServerRequest request) {
-        String id = request.pathVariable("id");
-        request.bodyToMono(PlayerDto.class).map(PlayerDto::toDomain)
-                .zipWith(gameService.getGame(UUID.fromString(id)))
-                .doOnNext(tuple -> tuple.getT2().addGameMove(new GameMove(Move.NO_MOVE, tuple.getT1()))).block();
-        return ServerResponse.noContent().build();
+    @PostMapping(path = "/games/{id}/join", consumes = "application/json", produces = "application/json")
+    public void postJoin(@PathVariable("id") String id, @RequestBody PlayerDto playerDto) {
+        Game game = gameService.getGame(UUID.fromString(id));
+        game.addGameMove(new GameMove(Move.NO_MOVE, playerDto.toDomain()));
     }
 
-    public Mono<ServerResponse> postMove(ServerRequest request) {
-        String id = request.pathVariable("id");
-        request.bodyToMono(MoveDto.class).map(MoveDto::toDomain)
-                .zipWith(gameService.getGame(UUID.fromString(id)))
-                .doOnNext(tuple -> tuple.getT2().getGameMove(tuple.getT1().getPlayer()).setMove(tuple.getT1().getMove())).block();
-        return ServerResponse.noContent().build();
+    @PostMapping(path = "/games/{id}/move", consumes = "application/json", produces = "application/json")
+    public void postMove(@PathVariable("id") String id, @RequestBody MoveDto moveDto) {
+        Game game = gameService.getGame(UUID.fromString(id));
+        GameMove move = moveDto.toDomain();
+        game.getGameMove(move.getPlayer()).setMove(move.getMove());
     }
 }
