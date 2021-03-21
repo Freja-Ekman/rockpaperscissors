@@ -1,12 +1,11 @@
 package se.cygni.rockpaperscissors.application.model;
 
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.Objects;
-import java.util.Optional;
 
-@Data
 public class Player {
+    @Getter
     private String name;
 
     public Player(String name) {
