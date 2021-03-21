@@ -15,6 +15,12 @@ public enum Move {
         this.value = value;
     }
 
+    /**
+     * Calculates the winning move.
+     *
+     * @param move the move that is compared to this move
+     * @return 0 if no move were made, 1 if this won, -1 if move one
+     */
     public int winsOver(Move move) {
         if(this.value == 0 || move.value == 0)
             throw new IllegalStateException();

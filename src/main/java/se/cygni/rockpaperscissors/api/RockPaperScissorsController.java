@@ -24,6 +24,13 @@ public class RockPaperScissorsController {
         this.gameService = gameService;
     }
 
+    /**
+     * Gets the status dto of a specified game.
+     *
+     * @param id the id of the specified game
+     * @return the game status
+     * @throws ResponseStatusException if game does not exist or the id has the wrong format
+     */
     @GetMapping(path = "/games/{id}" ,produces = "application/json")
     public StatusDto getGame(@PathVariable("id") String id) {
         try {
@@ -36,12 +43,25 @@ public class RockPaperScissorsController {
         }
     }
 
+    /**
+     * Post a game dto.
+     *
+     * @return the game dto
+     */
     @PostMapping(path = "/games", consumes = "application/json", produces = "application/json")
     public GameDto postGame() {
         UUID id = gameService.createGame();
         return new GameDto(id);
     }
 
+    /**
+     * Post a player that joins a specific game.
+     *
+     * @param id        the specific game id
+     * @param playerDto the player dto
+     * @throws ResponseStatusException if game does not exist, the id has the wrong format or the game already contains
+     * two players
+     */
     @PostMapping(path = "/games/{id}/join", consumes = "application/json", produces = "application/json")
     public void postJoin(@PathVariable("id") String id, @RequestBody PlayerDto playerDto) {
         try {
@@ -56,6 +76,14 @@ public class RockPaperScissorsController {
         }
     }
 
+    /**
+     * Post a move to a specific game of a player.
+     *
+     * @param id      the id of the specific game
+     * @param moveDto the move dto
+     * @throws ResponseStatusException if game does not exist, the id has the wrong format, the player does not
+     * exist, the move id set to HIDDEN or the player already have made a move
+     */
     @PostMapping(path = "/games/{id}/move", consumes = "application/json", produces = "application/json")
     public void postMove(@PathVariable("id") String id, @RequestBody MoveDto moveDto) {
         try {

@@ -14,6 +14,11 @@ public class MoveDto {
 
     }
 
+    /**
+     * Translate into a GameMove from the domain.
+     *
+     * @return the game move from the domain
+     */
     public GameMove toDomain() {
         return new GameMove(move, new Player(name));
     }

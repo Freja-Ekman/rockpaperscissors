@@ -13,6 +13,12 @@ public class GameMove {
         this.player = player;
     }
 
+    /**
+     * Sets move if there is no move yet.
+     * Checks that the move can not be set to HIDDEN.
+     * @param move the move shall be set
+     * @throws IllegalStateException if move is set to HIDDEN or player already have made a move.
+     */
     public void setMove(Move move) {
         if(this.move != Move.NO_MOVE)
             throw new IllegalStateException("Already moved");

@@ -13,6 +13,14 @@ public class StatusDto {
     private Move movePlayer1;
     private Move movePlayer2;
 
+    /**
+     * Instantiates a new Status dto of a specific game.
+     * The players is set to unknown until they joins with a name.
+     * The moves of the players is set to HIDDEN until the state of the game
+     * is something else than NOT_FINISHED.
+     *
+     * @param game the game
+     */
     public StatusDto(Game game) {
         state = game.checkResult();
         Optional<GameMove> optionalGameMove1 = game.getGameMove1();

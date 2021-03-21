@@ -11,6 +11,11 @@ public class PlayerDto {
 
     }
 
+    /**
+     * Translate into a player from the domain.
+     *
+     * @return the player
+     */
     public Player toDomain() {
         return new Player(name);
     }
