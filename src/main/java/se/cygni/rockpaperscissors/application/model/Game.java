@@ -1,13 +1,17 @@
 package se.cygni.rockpaperscissors.application.model;
 
 import lombok.Data;
+import lombok.Getter;
+
 import java.util.Optional;
 import java.util.UUID;
 
-@Data
 public class Game {
+    @Getter
     private Optional<GameMove> gameMove1;
+    @Getter
     private Optional<GameMove> gameMove2;
+    @Getter
     private UUID id;
 
 
@@ -37,7 +41,7 @@ public class Game {
 
     public State checkResult() {
         if(gameMove1.isEmpty() || gameMove2.isEmpty())
-            return State.NOT_STARTED;
+            return State.NOT_FINISHED;
         try {
             int result = gameMove1.get().getMove().winsOver(gameMove2.get().getMove());
             switch (result) {
@@ -49,7 +53,7 @@ public class Game {
                     return State.EQUAL;
             }
         } catch (IllegalStateException e) {
-            return State.NOT_STARTED;
+            return State.NOT_FINISHED;
         }
 
     }
