@@ -2,8 +2,6 @@ package se.cygni.rockpaperscissors.application.model;
 
 import lombok.Data;
 
-import java.util.Optional;
-
 @Data
 public class GameMove {
     private Move move;

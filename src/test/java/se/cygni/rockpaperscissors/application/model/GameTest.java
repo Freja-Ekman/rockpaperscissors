@@ -80,4 +80,15 @@ public class GameTest {
         State state = game.checkResult();
         assertEquals(State.NOT_STARTED, state);
     }
+
+    @Test
+    void getGameMoveNoMove() {
+        assertThrows(IllegalStateException.class, () -> {game.getGameMove(starter);});
+    }
+
+    @Test
+    void getGameMove() {
+        game.addGameMove(starterGameMove);
+        assertEquals(starterGameMove, game.getGameMove(starter));
+    }
 }

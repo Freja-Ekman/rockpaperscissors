@@ -27,17 +27,30 @@ public class Game {
         }
     }
 
+    public GameMove getGameMove(Player player) {
+        if(gameMove1.isPresent() && gameMove1.get().getPlayer().equals(player))
+            return gameMove1.get();
+        if(gameMove2.isPresent() && gameMove2.get().getPlayer().equals(player))
+            return gameMove2.get();
+        throw new IllegalStateException("Player is not a part of the game");
+    }
+
     public State checkResult() {
         if(gameMove1.isEmpty() || gameMove2.isEmpty())
             return State.NOT_STARTED;
-        int result = gameMove1.get().getMove().winsOver(gameMove2.get().getMove());
-        switch (result) {
-            case 1:
-                return State.PLAYER1WON;
-            case -1:
-                return State.PLAYER2WON;
-            default:
-                return State.EQUAL;
+        try {
+            int result = gameMove1.get().getMove().winsOver(gameMove2.get().getMove());
+            switch (result) {
+                case 1:
+                    return State.PLAYER1WON;
+                case -1:
+                    return State.PLAYER2WON;
+                default:
+                    return State.EQUAL;
+            }
+        } catch (IllegalStateException e) {
+            return State.NOT_STARTED;
         }
+
     }
 }
