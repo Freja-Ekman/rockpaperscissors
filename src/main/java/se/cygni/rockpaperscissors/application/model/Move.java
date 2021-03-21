@@ -6,7 +6,8 @@ public enum Move {
     ROCK(1),
     PAPER(2),
     SCISSOR(3),
-    NO_MOVE(0);
+    NO_MOVE(0),
+    HIDDEN(-1);
 
     private int value;
 

@@ -4,5 +4,5 @@ public enum State {
     PLAYER1WON,
     PLAYER2WON,
     EQUAL,
-    NOT_STARTED
+    NOT_FINISHED
 }

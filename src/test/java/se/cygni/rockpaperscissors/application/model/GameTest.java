@@ -72,13 +72,13 @@ public class GameTest {
     void checkResultNoGameMoveFromOne() {
         game.addGameMove(starterGameMove);
         State state = game.checkResult();
-        assertEquals(State.NOT_STARTED, state);
+        assertEquals(State.NOT_FINISHED, state);
     }
 
     @Test
     void checkResultNoGameMoveFromBoth() {
         State state = game.checkResult();
-        assertEquals(State.NOT_STARTED, state);
+        assertEquals(State.NOT_FINISHED, state);
     }
 
     @Test

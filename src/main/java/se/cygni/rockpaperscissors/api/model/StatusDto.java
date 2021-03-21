@@ -1,10 +1,7 @@
 package se.cygni.rockpaperscissors.api.model;
 
 import lombok.Data;
-import se.cygni.rockpaperscissors.application.model.Game;
-import se.cygni.rockpaperscissors.application.model.GameMove;
-import se.cygni.rockpaperscissors.application.model.Player;
-import se.cygni.rockpaperscissors.application.model.State;
+import se.cygni.rockpaperscissors.application.model.*;
 
 import java.util.Optional;
 
@@ -13,6 +10,8 @@ public class StatusDto {
     private State state;
     private String player1;
     private String player2;
+    private Move movePlayer1;
+    private Move movePlayer2;
 
     public StatusDto(Game game) {
         state = game.checkResult();
@@ -27,6 +26,13 @@ public class StatusDto {
             player2 = optionalGameMove2.get().getPlayer().getName();
         } else {
             player2 = "Unknown";
+        }
+        if(state != State.NOT_FINISHED) {
+            movePlayer1 = optionalGameMove1.get().getMove();
+            movePlayer2 = optionalGameMove2.get().getMove();
+        } else {
+            movePlayer1 = Move.HIDDEN;
+            movePlayer2 = Move.HIDDEN;
         }
     }
 }
