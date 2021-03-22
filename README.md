@@ -5,6 +5,9 @@ and make their moves. Once a move is made it can not be changed, and a new game 
 started to compete once again with another move. May the best man win!
 
 ## Getting started
+To build and run the application JDK and JRE 11 is required, but the application is
+also tested with version 13.
+
 To build the application run the following command from the projects root
 directory:<br>
 `./gradlew build`.
@@ -20,30 +23,55 @@ moves. The state could be either *PLAYER1WON*, *PLAYER2WON*, *EQUAL* or *NOT_FIN
 If a player has not joined yet, it is set to *unknown*. Lastly, the players' moves are set
 to *HIDDEN* until the game has ended.
 
+#### Example of return
+New game with no players:
+`{"state":"NOT_FINISHED","player1":"Unknown","player2":"Unknown","movePlayer1":"HIDDEN","movePlayer2":"HIDDEN"}`
+
+Game with one player:
+`{"state":"NOT_FINISHED","player1":"Testsson","player2":"Unknown","movePlayer1":"HIDDEN","movePlayer2":"HIDDEN"}`
+
+Finished game:
+`{"state":"PLAYER1WON","player1":"Testsson","player2":"Tester","movePlayer1":"PAPER","movePlayer2":"ROCK"}`
+
 #### Error handling
-- Error: Not Found - If the there are not a game with tha specified id.
-- Error: Bad Request - If the specified id has the wrong format, i.e is not a UUID.
+- 404 Error: Not Found - If the there are not a game with the specified id.
+- 400 Error: Bad Request - If the specified id has the wrong format, i.e not a UUID.
 
 ### POST /api/games
 Creates a game and returns the game-id.
 
+#### Example of return
+`{"game_id":"9975a9d4-dd5c-4153-a0fe-6d98100be767"}`
+
 ### POST /api/games/{id}/join
 Joins the specified game. Define the player name in the request body.
 
+#### Example of JSON body
+`{"name":"Testsson"}`
+
+#### Example of return
+No returns, use `GET /api/games/{id}` to see result.
+
 #### Error handling
-- Error: Not Found - If the there are not a game with tha specified id.
-- Error: Bad Request - If the specified id has the wrong format, i.e is not a UUID.
-- Error: Precondition Failed - If the players already is added.
+- 404 Error: Not Found - If the there are not a game with tha specified id.
+- 400 Error: Bad Request - If the specified id has the wrong format, i.e is not a UUID.
+- 412 Error: Precondition Failed - If the players already is added.
 
 ### POST api/games/{id}/move
 Makes a move. Define the player name and the move in the request body. The move could be
 either *ROCK*, *SCISSOR* or *PAPER*.
 
+#### Example of JSON body
+`{"name":"Testsson","move":"PAPER"}`
+
+#### Example of return
+No returns, use `GET /api/games/{id}` to see result.
+
 #### Error handling
-- Error: Not Found - If either the player or game does not exist.
-- Error: Bad Request - If the specified id has the wrong format, i.e is not a UUID, or 
+- 404 Error: Not Found - If either the player or game does not exist.
+- 400 Error: Bad Request - If the specified id has the wrong format, i.e is not a UUID, or 
 if the move is set to *HIDDEN*.
-- Error: Precondition Failed - If player already has made its move.
+- 412 Error: Precondition Failed - If player already has made its move.
 
 
 ## cURL command examples
