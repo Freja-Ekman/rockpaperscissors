@@ -7,10 +7,10 @@ import java.util.UUID;
 
 @Service
 public class GameServiceImpl implements GameService {
-    private HashMap<UUID, Game> games;
+    private final HashMap<UUID, Game> games;
 
     public GameServiceImpl() {
-        games = new HashMap<UUID, Game>();
+        games = new HashMap<>();
     }
 
     @Override

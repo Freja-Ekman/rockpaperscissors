@@ -6,7 +6,7 @@ public class GameMove {
     @Getter
     private Move move;
     @Getter
-    private Player player;
+    private final Player player;
 
     public GameMove(Move move, Player player) {
         this.move = move;

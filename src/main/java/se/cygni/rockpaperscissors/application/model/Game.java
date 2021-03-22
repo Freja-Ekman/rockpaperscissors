@@ -11,7 +11,7 @@ public class Game {
     @Getter
     private Optional<GameMove> gameMove2;
     @Getter
-    private UUID id;
+    private final UUID id;
 
     public Game() {
         this.id = UUID.randomUUID();
@@ -28,7 +28,7 @@ public class Game {
     public void addGameMove(GameMove gameMove) {
         if(gameMove1.isEmpty()) {
             gameMove1 = Optional.of(gameMove);
-        } else if(gameMove1.isPresent() && gameMove2.isEmpty()) {
+        } else if(gameMove2.isEmpty()) {
             gameMove2 = Optional.of(gameMove);
         } else {
             throw new IllegalStateException("Player already exists");

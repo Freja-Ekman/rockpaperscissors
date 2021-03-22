@@ -1,7 +1,5 @@
 package se.cygni.rockpaperscissors.application.model;
 
-import jdk.jshell.spi.ExecutionControl;
-
 public enum Move {
     ROCK(1),
     PAPER(2),
@@ -9,7 +7,7 @@ public enum Move {
     NO_MOVE(0),
     HIDDEN(-1);
 
-    private int value;
+    private final int value;
 
     Move(int value) {
         this.value = value;

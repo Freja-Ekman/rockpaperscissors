@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Player {
     @Getter
-    private String name;
+    private final String name;
 
     public Player(String name) {
         this.name = name;

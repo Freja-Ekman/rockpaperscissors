@@ -18,7 +18,9 @@ import static org.springframework.http.HttpStatus.*;
 
 @RestController
 public class RockPaperScissorsController {
-    private GameService gameService;
+    public static final String GAME_DOES_NOT_EXIST = "Game does not exist";
+    public static final String WRONG_ID_FORMAT = "Wrong id format";
+    private final GameService gameService;
 
     public RockPaperScissorsController(GameService gameService) {
         this.gameService = gameService;
@@ -36,10 +38,10 @@ public class RockPaperScissorsController {
         try {
             Game game = gameService.getGame(UUID.fromString(id));
             if(game == null)
-                throw new ResponseStatusException(NOT_FOUND, "Game does not exist");
+                throw new ResponseStatusException(NOT_FOUND, GAME_DOES_NOT_EXIST);
             return new StatusDto(game);
         } catch (IllegalArgumentException e) {
-            throw new ResponseStatusException(BAD_REQUEST, "Wrong id format");
+            throw new ResponseStatusException(BAD_REQUEST, WRONG_ID_FORMAT);
         }
     }
 

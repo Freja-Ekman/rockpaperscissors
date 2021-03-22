@@ -8,12 +8,12 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class GameMoveTest {
+class GameMoveTest {
     private Player player;
     private GameMove gameMove;
 
     @BeforeEach
-    void GameMoveTest() {
+    void setUp() {
         player = new Player("Testsson");
         gameMove = new GameMove(Move.ROCK, player);
     }
